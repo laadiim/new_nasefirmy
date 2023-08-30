@@ -1,0 +1,161 @@
+<!--<td>-->
+<!--<label>Priority:</label>-->
+<!--<select	name="priority"	width="100px">-->
+<!--<option	value="1">1</option>-->
+<!--<option	value="2">2</option>-->
+<!--<option	value="3">3</option>-->
+<!--<option	value="4">4</option>-->
+<!--<option	value="5">5</option>-->
+<!--<option	value="6">6</option>-->
+<!--<option	value="7">7</option>-->
+<!--<option	value="8">8</option>-->
+<!--<option	value="9">9</option>-->
+<!--<option	value="10">10</option>-->
+<!--</select>-->
+<!--</td>-->
+
+{% extends "_base.html" %}
+
+{% block content %}
+
+<h1>Založení hry</h1>
+
+<!-- Nastaveni parametru -->
+<div class="w3-container w3-cell" style="width:50%">
+    <form method="post" action="/create_game/">
+        {{ form.csrf_token }}
+        <p>
+            Název: {{ form.nazev(placeholder="název") }}
+            {% if form.nazev.errors %}
+                <span class="error">
+                    {% for error in form.nazev.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </p>
+        <p>
+            Datum: {{ form.dat_hrani(placeholder="datum hraní") }}
+            {% if form.dat_hrani.errors %}
+                <span class="error">
+                    {% for error in form.dat_hrani.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </p>
+        <p>
+            <!--{{ form.misto_id(placeholder="místo ID") }}-->
+            <!--{% if form.misto_id.errors %}-->
+                <!--<span class="error">-->
+                    <!--{% for error in form.misto_id.errors %}-->
+                        <!--{{ error }}-->
+                    <!--{% endfor %}-->
+                <!--</span>-->
+            <!--{% endif %}-->
+
+           Místo:
+            <select name="misto_id" width="100px">
+                {% for misto in mista %}
+                    <option value="1">{{ misto.nazev }}, {{ misto.ulice}}, {{ misto.obec }}</option>
+                {% endfor %}
+
+            </select>
+
+            {% if form.misto_id.errors %}
+                <span class="error">
+                    {% for error in form.misto_id.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+            {% endif %}
+
+            <!-- Pridat moznost registrace noveho mista -->
+        </p>
+        <p>
+            Popis: {{ form.popis(placeholder="popis") }}
+            {% if form.popis.errors %}
+                <span class="error">
+                    {% for error in form.popis.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </p>
+        <p>
+            Klíč: {{ form.klic(placeholder="klíč") }}
+            {% if form.klic.errors %}
+                <span class="error">
+                    {% for error in form.klic.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </p>
+        <p>
+            Počáteční majetek: {{ form.majetek(placeholder="počáteční majetek") }}
+            {% if form.majetek.errors %}
+                <span class="error">
+                    {% for error in form.majetek.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </p>
+        <p>
+            Karty za kolo: {{ form.karty_za_kolo(placeholder="počet investic za kolo") }}
+            {% if form.karty_za_kolo.errors %}
+                <span class="error">
+                    {% for error in form.karty_za_kolo.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </p>
+        <p>
+            Počet týmů: {{ form.poc_tymu(placeholder="počet týmů") }}
+            {% if form.poc_tymu.errors %}
+                <span class="error">
+                    {% for error in form.poc_tymu.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </p>
+        <p>
+            Počet kol: {{ form.poc_kol(placeholder="počet kol") }}
+            {% if form.poc_kol.errors %}
+                <span class="error">
+                    {% for error in form.poc_kol.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </p>
+
+        <p>
+            Cena certifikace: {{ form.cena_cert(placeholder="cena certifikace") }}
+            {% if form.cena_cert.errors %}
+                <span class="error">
+                    {% for error in form.cena_cert.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </p>
+        <p>
+            Odměna za certifikaci : {{ form.odm_cert(placeholder="odměna za certifikaci") }}
+            {% if form.odm_cert.errors %}
+                <span class="error">
+                    {% for error in form.odm_cert.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </p>
+        <button class="btnconf" type="submit">Založ hru</button>
+        <br>
+    </form>
+</div>
+
+{% endblock %}

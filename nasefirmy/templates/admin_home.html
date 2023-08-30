@@ -1,0 +1,35 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+    <h1>Admin home</h1>
+
+    <!--<form action="/places/" method="POST">-->
+        <!--<button class="btn btn-sm btn-success" type="submit">Místa</button>-->
+    <!--</form>-->
+    <!--<br>-->
+    <!--<form action="/set_game/" method="POST">-->
+        <!--<button class="btn btn-sm btn-success" type="submit">Založ hru</button>-->
+    <!--</form>-->
+    <!--<br>-->
+    <!--<form action="/run_game/" method="POST">-->
+    <!--&lt;!&ndash;<form action="/overview/" method="POST">&ndash;&gt;-->
+        <!--<button class="btn btn-sm btn-success" type="submit">Spusť hru</button>-->
+    <!--</form>-->
+    <!--<br>-->
+
+    <a href="{{ url_for('places') }}" class="w3-bar-item w3-button w3-blue">Místa</a>
+    <a href="{{ url_for('set_game') }}" class="w3-bar-item w3-button w3-blue">Založ hru</a>
+    <a href="{{ url_for('run_game') }}" class="w3-bar-item w3-button w3-blue">Spusť hru</a>
+
+    <!--<div class="container">-->
+        <!--<button id="btn1">Místa</button>-->
+        <!--<button id="btn2">Založ hru</button>-->
+        <!--<button id="btn3">three</button>-->
+    <!--</div>-->
+
+    {% block content %}
+    <!-- Dashboard -->
+    {% endblock %}
+
+{% endblock %}

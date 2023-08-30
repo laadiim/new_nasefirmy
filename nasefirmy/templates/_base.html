@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Naše Firmy - vítejte!</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main_minimal.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+</head>
+
+
+<body>
+
+    <div class="w3-bar w3-border w3-light-grey w3-large">
+        <a href="{{ url_for('home') }}" class="w3-bar-item w3-button w3-green"><i class="fa fa-home"></i> Domů</a>
+
+        <!-- user part -->
+        {% if game.logged_in %}
+            <a href="/logout" class="w3-bar-item w3-button w3-blue w3-right">
+                <i class="fa fa-sign-out"></i> Odhlášení</a>
+        <a class="w3-bar-item w3-right">Jsi přihlášen jako <b>{{ game.team_name }}</b>.</a>
+        {% else %}
+            <a class="w3-bar-item w3-button w3-blue w3-right" href="{{ url_for('login') }}">
+                <i class="fa fa-sign-in"></i> Přihlásit se</a>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <div class="content">
+
+            {% for message in get_flashed_messages() %}
+                <div class="w3-panel w3-green w3-round-large">{{ message }}</div>
+            {% endfor %}
+
+            {% if error %}
+                <div class="w3-panel w3-red w3-round-large"><strong>Chyba:</strong> {{ error }}</div>
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+
+            </div>
+            <div class="footer">
+            <hr>
+            <!--<p><a href="http://www.nvias.org/">nvias</a>, <a href="http://www.tomasryba.com">Tomáš Ryba</a></p>-->
+            {% if game.logged_in %}
+                <p><a class="w3-bar-item w3-button w3-red w3-left" href="{{ url_for('new_admin_tab') }}">admin</a></p>
+                {% for i in range(game.n_teams) %}
+                    <p><a class="w3-bar-item w3-button w3-green w3-left" href="{{ url_for('user_login', id=i+1) }}">tým {{ i + 1 }}</a></p>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- scripts -->
+    <!--<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>-->
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
+
+    <script>
+        // Set the date we're counting down to
+        //var countDownDate = new Date("Jan 5, 2018 15:37:25").getTime();
+        var min10 = 10 * 60 * 1000
+        var countDownDate = new Date().getTime() + min10
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+            // Get todays date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now an the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for minutes and seconds
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Output the result in an element with id="demo"
+            document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
+
+            // If the count down is over, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

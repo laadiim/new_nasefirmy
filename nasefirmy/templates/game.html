@@ -1,0 +1,426 @@
+{% extends "_base.html" %}
+{% block content %}
+
+{% if game.role == 'ROM' %}
+    <h2>Firma: <b>{{ game.team_name }}</b></h2>
+    <h4>Role: Ředitel / Obchod / Marketing</h4>
+    <!--<br>-->
+    <div>
+        <b>MAJETEK:</b>
+        <a class="w3-bar-item w3-button w3-red">{{ majetek }}</a>
+        <a href="{{ url_for('graph') }}" class="w3-bar-item w3-button w3-blue">Graf majetku</a>
+    </div>
+
+    <br>
+    <div>
+        <b>INVESTICE:</b>
+        {% for t in [('VVJ', 'Vývoj'), ('VRB', 'Výroba'), ('OBD', 'Obchod'), ('SRV', 'Servis'), ('MKT', 'Marketing')]%}
+        {% if cards_info[t[0]]['n_remaining'] > 0 %}
+        <a href="{{ url_for('investment', type=t[0]) }}" class="w3-bar-item w3-button w3-blue">
+            <img src={{cards_info[t[0]]['ikona']}} alt="alt: {{t[1]}}" class="dashboard_inv_ico"><br/>
+            {{ t[1] }} ({{ cards_info[t[0]]['n_remaining'] }} ks, {{ cards_info[t[0]]['next_cost'] }} $)
+        </a>
+        {% else %}
+        <a class="w3-bar-item w3-button w3-gray">
+            {{ t[1] }} ({{ cards_info[t[0]]['n_remaining'] }} ks)
+        </a>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <br>
+    <div>
+        <b>PŮJČKY:</b>
+        VZÍT
+        <a href="{{ url_for('investment', type='PUJ1') }}" class="w3-bar-item w3-button w3-blue">Půjčka 20/2</a>
+        <a href="{{ url_for('investment', type='PUJ2') }}" class="w3-bar-item w3-button w3-blue">Půjčka 40/3</a>
+        {% if pujcky|length() > 0 %}
+        SPLATIT:
+        {% for i in range(pujcky|length()) %}
+        <a href="{{ url_for('loan_repayment', id=pujcky[i]['id']) }}" class="w3-bar-item w3-button w3-blue">
+            Půjčka {{ -pujcky[i]['value'] }}</a>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <br>
+    <div>
+        <b>VYBRÁNO:</b>
+        <!-- Potvrd BTN -->
+        {% if game.investments_accepted[game.team_name]|sum() < 2 and game.round_state == 'running' %}
+        <a href="{{ url_for('investment', type='OK') }}" class="w3-bar-item w3-button w3-green">Potvrď</a>
+        {% else %}
+        <a class="w3-bar-item w3-button w3-gray">Potvrď</a>
+        {% endif %}
+
+        <!-- Investice -->
+        {% for i in range(game.investments[game.team_name]|length()) %}
+        {% if game.investments_accepted[game.team_name][i] %}
+        <a class="w3-bar-item w3-button w3-blue">{{ game.investments[game.team_name][i] }}</a>
+        {% else %}
+        <a class="w3-bar-item w3-button w3-green">{{ game.investments[game.team_name][i] }}</a>
+        {% endif %}
+        {% endfor %}
+
+        <!-- Pujcky -->
+        {% for i in range(game.loans[game.team_name]|length()) %}
+        {% if game.loans_accepted[game.team_name][i] %}
+        <a class="w3-bar-item w3-button w3-blue">{{ game.loans[game.team_name][i] }}</a>
+        {% else %}
+        <a class="w3-bar-item w3-button w3-green">{{ game.loans[game.team_name][i] }}</a>
+        {% endif %}
+        {% endfor %}
+
+        <!-- Zrus BTN -->
+        {% if game.investments_accepted[game.team_name]|sum() < 2 and game.round_state == 'running' %}
+        <a href="{{ url_for('investment', type='cancel') }}" class="w3-bar-item w3-button w3-green">Zruš</a>
+        {% else %}
+        <a class="w3-bar-item w3-button w3-gray">Zruš</a>
+        {% endif %}
+    </div>
+    <br>
+    <br>
+    {% elif game.role == 'admin' %}
+    <h3>Role: Admin</h3>
+    <!--<br>-->
+        {% if control == True %}
+            <div class="w3-left">
+                <a href="{{ url_for('places') }}" class="w3-bar-item w3-button w3-blue">Správa míst</a>
+                <a href="{{ url_for('create_game') }}" class="w3-bar-item w3-button w3-blue">Založit hru</a>
+                <a href="{{ url_for('setup_cards') }}" class="w3-bar-item w3-button w3-blue">Vybrat karty pro hru</a>
+                <a href="{{ url_for('set_game') }}" class="w3-bar-item w3-button w3-blue">Vybrat hru</a>
+                <a href="{{ url_for('register_teams') }}" class="w3-bar-item w3-button w3-blue">Registrovat týmy</a>
+                <!--<a href="{{ url_for('run_game') }}" class="w3-bar-item w3-button w3-blue">Spustit hru</a>-->
+                <a href="{{ url_for('graph') }}" class="w3-bar-item w3-button w3-blue">Graf majetku</a>
+            </div>
+
+            <pre class="w3-left">  </pre>
+
+            <div class="w3-grey w3-left">
+                Kolo #{{ game.round_no }}
+                <!--čas: <p class="w3-right" id="demo"></p>-->
+                <!--{% if game.round_state == 'running' %}-->
+                <!--<a href="{{ url_for('round_processor', action='pause') }}" class="wb3-bar-item w3-button w3-blue">-->
+                <!--<i class="fa fa-pause"></i></a>-->
+                <!--{% else %}-->
+                <!--<a href="{{ url_for('round_processor', action='play') }}" class="wb3-bar-item w3-button w3-green">-->
+                <!--<i class="fa fa-play"></i></a>-->
+                <!--{% endif %}-->
+                <!--<a href="{{ url_for('round_processor', action='stop') }}" class="wb3-bar-item w3-button w3-red">-->
+                <!--<i class="fa fa-stop"></i></a>-->
+                {% if game.round_state == 'running' %}
+                <a href="{{ url_for('round_processor', action='pause') }}" class="wb3-bar-item w3-button w3-blue">
+                    <i class="fa fa-pause"></i></a>
+                {% if team_check_error == False %}
+                <a href="{{ url_for('round_processor', action='stop') }}" class="wb3-bar-item w3-button w3-red">
+                    <i class="fa fa-stop"></i></a>
+                {% else %}
+                <span>{{ error_teams }} nemají uložený investice</span>
+                {% endif %}
+                {% elif game.round_state == 'paused' %}
+                <a href="{{ url_for('round_processor', action='play') }}" class="wb3-bar-item w3-button w3-green">
+                    <i class="fa fa-play"></i></a>
+                <a href="{{ url_for('round_processor', action='stop') }}" class="wb3-bar-item w3-button w3-red">
+                    <i class="fa fa-stop"></i></a>
+                {% elif game.round_no > 0 and not game.round_evaluated %}
+                <a href="{{ url_for('round_processor', action='eval') }}" class="wb3-bar-item w3-button w3-green">
+                    Vyhodnoť kolo</a>
+                {% else %}
+                <a href="{{ url_for('round_processor', action='play') }}" class="wb3-bar-item w3-button w3-green">
+                    <i class="fa fa-play"></i></a>
+                {% endif %}
+            </div>
+            <br>
+        {% endif %}
+    {% endif %}
+
+
+    <!-- DASHBOARD -->
+    <div class="w3-cell-row" id="content">
+        <div class="w3-container w3-cell">
+            <!-- prehled -->
+            <div class="w3-bar-item w3-large"><b>Přehled investic</b></div>
+            <table class="w3-table-all w3-centered w3-card-4">
+                <tr class="w3-blue">
+                    <th>Firmy</th>
+                    <!--<th>Vývoj</th>-->
+                    <!--<th>Výroba</th>-->
+                    <!--<th>Obchod</th>-->
+                    <!--<th>Servis</th>-->
+                    <!--<th>Marketing</th>-->
+
+                    <!-- local css -->
+                    <th><img src="/static/image/iko_vvj.png" alt="alt: Vývoj" class="dashboard_inv_ico"><br/>Vývoj</th>
+                    <th><img src="/static/image/iko_vrb.png" alt="alt: Výroba" class="dashboard_inv_ico"><br/>Výroba</th>
+                    <th><img src="/static/image/iko_obd.png" alt="alt: Obchod" class="dashboard_inv_ico"><br/>Obchod</th>
+                    <th><img src="/static/image/iko_srv.png" alt="alt: Servis" class="dashboard_inv_ico"><br/>Servis</th>
+                    <th><img src="/static/image/iko_mkt.png" alt="alt: Marketing" class="dashboard_inv_ico"><br/>Marketing
+                    </th>
+
+                    <!-- set style - safer solution -->
+                    <!--<th><img src="/static/image/vyvoj.png" alt="alt: Vývoj" style="width:100px;height:100px;"></th>-->
+                    <!--<th><img src="/static/image/vyroba.png" alt="alt: Výroba" style="width:100px;height:100px;"></th>-->
+                    <!--<th><img src="/static/image/obchod.png" alt="alt: Obchod" style="width:100px;height:100px;"></th>-->
+                    <!--<th><img src="/static/image/servis.png" alt="alt: Servis" style="width:100px;height:100px;"></th>-->
+                    <!--<th><img src="/static/image/marketing.png" alt="alt: Marketing" style="width:100px;height:100px;"></th>-->
+
+                    <!-- set attribute - could be overwritten by style -->
+                    <!--<th><img src="/static/image/vyvoj.png" alt="alt: Vývoj" style="width:100px;height:100px;"></th>-->
+                    <!--<th><img src="/static/image/vyroba.png" alt="alt: Výroba" style="width:100px;height:100px;"></th>-->
+                    <!--<th><img src="/static/image/obchod.png" alt="alt: Obchod" style="width:100px;height:100px;"></th>-->
+                    <!--<th><img src="/static/image/servis.png" alt="alt: Servis" style="width:100px;height:100px;"></th>-->
+                    <!--<th><img src="/static/image/marketing.png" alt="alt: Marketing" style="width:100px;height:100px;"></th>-->
+                </tr>
+                {% for td in game.team_data %}
+                <tr>
+                    <td>{{ td['nazev'] }}</td>
+                    <td>{{ td['vyvoj'] }}</td>
+                    <td>{{ td['vyroba'] }}</td>
+                    <td>{{ td['obchod'] }}</td>
+                    <td>{{ td['servis'] }}</td>
+                    <td>{{ td['marketing'] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <!-- Marketingova zprava -->
+            {% if mkt_mess_form is not none %}
+            <br>
+            <!--<div class="w3-gray">-->
+            <div>
+                <b>Marketingová zpráva</b>
+                <form class="form" role="form" method="post" action="/mkt_message/">
+                    {{ mkt_mess_form.csrf_token }}
+                    {{ mkt_mess_form.title(placeholder="Titulek zprávy") }}
+                    <br>
+                    {{ mkt_mess_form.body(placeholder="Obsah zprávy", cols="60", rows="4") }}
+                    <br>
+                    <button class="btnconf" type="submit">Odeslat</button>
+                </form>
+            </div>
+
+            <!-- Hlasovani o marketingove zprave -->
+            {% elif game.role == 'ROM' and mkt_mess_voting_form is not none %}
+            <br>
+            <b>Vyhodnocení marketingových zpráv</b>
+            <form class="form" role="form" method="post" action="/mkt_message_voting/">
+                {{ mkt_mess_voting_form.csrf_token }}
+                {{ mkt_mess_voting_form.item }}
+                <button class="btnconf" type="submit">Odeslat</button>
+            </form>
+            {% endif %}
+
+            <!-- Adminovsky prehled tymu -->
+            {% if game.role == 'admin' %}
+                <br>
+                {% if control == True %}
+                    <div class="w3-bar-item w3-large"><b>Přehled týmů</b></div>
+                    <table class="w3-table-all w3-centered w3-card-4">
+                        <tr class="w3-blue">
+                            <th>Firma</th>
+                            <th>Má robota</th>
+                            <th>Má název</th>
+                            <th>Má logo</th>
+                            <th>Poplatek za certifikaci</th>
+                            <th>Odměna za certifikaci</th>
+                        </tr>
+                        {% for td in game.team_data %}
+                        <tr>
+                            <td>{{ td['nazev'] }}</td>
+                            <td>
+                                <form action="{{ url_for('vyrobek_state_changed', team_id=td['tym_id']) }}" method="get">
+                                    {% if td['ma_vyrobek'] %}
+                                    <input type="checkbox" name="vyrobek" checked>
+                                    {% else %}
+                                    <input type="checkbox" name="vyrobek">
+                                    {% endif %}
+                                    <input type="submit" value="Potvrď">
+                                </form>
+                            </td>
+                            <td>
+                                <form action="{{ url_for('nazev_state_changed', team_id=td['tym_id']) }}" method="get">
+                                    {% if td['ma_nazev'] %}
+                                    <input type="checkbox" name="nazev" checked>
+                                    {% else %}
+                                    <input type="checkbox" name="nazev">
+                                    {% endif %}
+                                    <input type="submit" value="Potvrď">
+                                </form>
+                            </td>
+                            <td>
+                                <form action="{{ url_for('logo_state_changed', team_id=td['tym_id']) }}" method="get">
+                                    {% if td['ma_logo'] %}
+                                    <input type="checkbox" name="logo" checked>
+                                    {% else %}
+                                    <input type="checkbox" name="logo">
+                                    {% endif %}
+                                    <input type="submit" value="Potvrď">
+                                </form>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('certification_charge', team_id=td['tym_id']) }}"
+                                class="w3-bar-item w3-button w3-red">Strhni 20</a>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('certification_reward', team_id=td['tym_id']) }}"
+                                class="w3-bar-item w3-button w3-green">Odměň 50</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    <!-- Formular pro odmeny / platby -->
+                    <br>
+                    <div class="w3-bar-item w3-large"><b>Zadání zvláštní platby</b></div>
+                    <form action="/special_payment/" method="post">
+                        {{ payment_form.csrf_token }}
+
+                        Tým:
+                        <select name="select_team" width="100px">
+                            {% for team in game.team_data %}
+                            <option value={{ team[
+                            'tym_id'] }}>{{ team['nazev'] }}</option>
+                            {% endfor %}
+                        </select>
+                        {% if payment_form.team_name.errors %}
+                        <span class="error">
+                            {% for error in payment_form.team_name.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </span>
+                        {% endif %}
+
+                        Částka: {{ payment_form.amount(placeholder="částka") }}
+                        {% if payment_form.amount.errors %}
+                        <span class="error">
+                            {% for error in payment_form.amount.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </span>
+                        {% endif %}
+
+                        Popis: {{ payment_form.description(placeholder="popis") }}
+                        {% if payment_form.description.errors %}
+                        <span class="error">
+                            {% for error in payment_form.description.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </span>
+                        {% endif %}
+                        <button class="btnconf" type="submit">Odešli</button>
+                    </form>
+
+
+                    <h4><b>Úprava v databázi</b></h4>
+                    <form action="/action/db/back" method="POST">
+                        <div class="sel-team-cards">
+                            <select class="sel-team-cards" default="" name="select_team" width="100px">
+                                <option value="">Tým</option>
+                                {% for team in game.team_data %}
+                                <option value={{ team[
+                                'tym_id'] }}>{{ team['nazev'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="sel-card">
+                            <select name="card" class="sel-cards">
+                                <option value="1">Vývoj</option>
+                                <option value="2">Výroba</option>
+                                <option value="3">Obchod</option>
+                                <option value="4">Servis</option>
+                                <option value="5">Marketing</option>
+                            </select>
+                        </div>
+                        <button class="btnconf sel-btn" type="submit" name="delete">Smazat 1</button>
+                        <button class="btnconf sel-btn" type="submit" name="add">Přidat 1</button>
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+        <!-- Pravy sloupec -->
+        <div class="w3-container w3-cell" style="width:50%">
+            <div class="w3-container">
+                <div class="w3-bar-item w3-large"><b>Příležitosti a Rizika</b></div>
+                <table class="w3-table-all w3-centered w3-card-4">
+                    <tr class="w3-blue">
+                        <th>Název</th>
+                        <th>Popis</th>
+                        <th>Částka</th>
+                        <th>firma</th>
+                    </tr>
+                    <!-- 12 = prilezitosti a rizika -->
+                    <tr>
+                        {% if game.card_PR is not none %}
+                        <td>{{ game.card_PR.cis_karta.nazev }}</td>
+                        <td>{{ game.card_PR.cis_karta.popis }}</td>
+                        <td>{{ game.card_PR.cis_karta.castka }}</td>
+                        <td>{{ winners_PR }}</td>
+                        {% endif %}
+                    </tr>
+                </table>
+            </div>
+            <br>
+
+            <div class="w3-container">
+                <div class="w3-bar-item w3-large"><b>Výzvy</b></div>
+                <table class="w3-table-all w3-centered w3-card-4">
+                    <tr class="w3-green">
+                        <th>Název</th>
+                        <th>Popis</th>
+                        <th>Částka</th>
+                        <th>firma</th>
+                    </tr>
+                    {% for vyzva in game.karty if vyzva.cis_karta.typk_id == 11 %}
+                    <!-- 11 = vyzvy -->
+                    <tr>
+                        <td>{{ vyzva.cis_karta.nazev }}</td>
+                        <td>{{ vyzva.cis_karta.popis }}</td>
+                        <td>{{ vyzva.cis_karta.castka }}</td>
+                        <td> {{ vyzva.cis_tym.nazev }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <br>
+
+            <div class="w3-container">
+                <div class="w3-bar-item w3-large"><b>Hrozby</b></div>
+                <table class="w3-table-all w3-centered w3-card-4">
+                    <tr class="w3-red">
+                        <th>Název</th>
+                        <th>Popis</th>
+                        <th>Částka</th>
+                        <th>firma</th>
+                    </tr>
+                    {% for hrozba in game.karty if hrozba.cis_karta.typk_id == 13 %}
+                    <!-- 13 = hrozby -->
+                    <tr>
+                        <td>{{ hrozba.cis_karta.nazev }}</td>
+                        <td>{{ hrozba.cis_karta.popis }}</td>
+                        <td>{{ hrozba.cis_karta.castka }}</td>
+                        <td>{{ hrozba.cis_tym.nazev }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    {% if first==True %}
+        <form action="/new_admin_tab/" target="_blank" name="newAdminTab"></form>
+
+        <script>
+            window.onload = function(){
+                document.forms['newAdminTab'].submit();
+            }
+            window.setInterval(function(){
+                $('#content').load(' #content');
+            }, timer)
+        </script>
+    {% endif %}
+    <!-- GRAPH -->
+    <!--<br>-->
+    <!--<div class="w3-cell-row">-->
+    <!--<div class="container" align="left">-->
+    <!--<embed type="image/svg+xml" src={{graph_data|safe}} style='max-width:1000px'/>-->
+    <!--</div>-->
+    <!--</div>-->
+
+{% endblock %}

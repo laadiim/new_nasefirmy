@@ -1,0 +1,40 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<h3>Přihlášení:</h3>
+
+<form class="form" role="form" method="post" action="/login/">
+    {{ form.csrf_token }}
+
+    <div class="container">
+        <!--<label><b>Jméno:</b></label>-->
+        <!--<br>-->
+        {{ form.game_key(placeholder="klíč hry") }}
+        <span class="error">
+            {% if form.game_key.errors %}
+                {% for error in form.game_key.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
+        </span>
+        <!--<br>-->
+        <!--<br>-->
+        <!--<label><b>Heslo: </b></label>-->
+        <br>
+        {{ form.team_key(placeholder="klíč týmu") }}
+        <span class="error">
+            {% if form.team_key.errors %}
+                {% for error in form.team_key.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
+        </span>
+      </div>
+
+    <br>
+    <br>
+    <button class="btnconf" type="submit">Přihlásit</button>
+</form>
+
+{% endblock %}

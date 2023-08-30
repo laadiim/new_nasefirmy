@@ -1,0 +1,25 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<h1>Naše firmy</h1>
+<h3>Registrace týmů</h3>
+<form method="POST" action="/register_teams/">
+    {{ form.csrf_token }}
+
+    <div class="container">
+        {% for team in form.teams %}
+            {{ team.csrf_token }}
+            {{ team.team_name }}
+            {{ team.team_key }}
+            {{ team.team_date }}
+            {{ team.team_desc }}
+            {{ team.team_num_players }}
+        <br>
+        {% endfor %}
+    </div>
+
+    <button class="btnconf" type="submit">Registruj</button>
+
+</form>
+
+{% endblock %}

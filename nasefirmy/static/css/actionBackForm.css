@@ -1,0 +1,31 @@
+.sel-team-cards{
+    display: inline-block;
+    text-align: center;
+}
+.sel-card{
+    display: inline-block;
+}
+.sel-cards{
+    text-align: center;
+}
+.sel-amount{
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+}
+.sel-btn{
+    display: inline-block;
+}
+.edit-db-cards{
+
+    left: 15px;
+    top: 60%
+}
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}

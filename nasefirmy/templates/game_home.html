@@ -1,0 +1,118 @@
+{% extends "_base.html" %}
+{% block content %}
+
+{% if role == 'ROM' %}
+    <h3>Role: Ředitel / Obchod / Marketing</h3>
+    <!--<br>-->
+    <div>
+        INVESTICE:
+        <a href="{{ url_for('investment', type='VVJ') }}" class="w3-bar-item w3-button w3-blue">Vývoj</a>
+        <a href="{{ url_for('investment', type='VRB') }}" class="w3-bar-item w3-button w3-blue">Výroba</a>
+        <a href="{{ url_for('investment', type='OBD') }}" class="w3-bar-item w3-button w3-blue">Obchod</a>
+        <a href="{{ url_for('investment', type='SRV') }}" class="w3-bar-item w3-button w3-blue">Servis</a>
+        <a href="{{ url_for('investment', type='MKT') }}" class="w3-bar-item w3-button w3-blue">Marketing</a>
+    </div>
+    <br>
+    <br>
+{% elif role == 'admin' %}
+    <h3>Role: Admin</h3>
+    <!--<br>-->
+    <a href="{{ url_for('places') }}" class="w3-bar-item w3-button w3-blue">Správa míst</a>
+    <a href="{{ url_for('set_game') }}" class="w3-bar-item w3-button w3-blue">Založit hru</a>
+    <a href="{{ url_for('register_teams') }}" class="w3-bar-item w3-button w3-blue">Registrovat týmy</a>
+    <a href="{{ url_for('run_game') }}" class="w3-bar-item w3-button w3-blue">Spustit hru</a>
+    <br>
+    <br>
+{% endif %}
+
+
+<!-- DASHBOARD -->
+<div class="w3-cell-row">
+    <div class="w3-container w3-cell">
+        <table class="w3-table-all w3-centered w3-card-4">
+            <tr class="w3-blue">
+                <th>Firmy</th>
+                <th>Vývoj</th>
+                <th>Výroba</th>
+                <th>Obchod</th>
+                <th>Servis</th>
+                <th>Marketing</th>
+            </tr>
+            {% for company in companies %}
+            <tr>
+                <td>{{ company.name }}</td>
+                <td>{{ company.vyvoj }}</td>
+                <td>{{ company.vyroba }}</td>
+                <td>{{ company.obchod }}</td>
+                <td>{{ company.servis }}</td>
+                <td>{{ company.marketing }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="w3-container w3-cell" style="width:50%">
+        <div class="w3-container">
+            <div class="w3-bar-item w3-large"><b>Příležitosti a Rizika</b></div>
+            <table class="w3-table-all w3-centered w3-card-4">
+                <tr class="w3-blue">
+                    <th>Název</th>
+                    <th>Popis</th>
+                    <th>Částka</th>
+                    <th>firma</th>
+                </tr>
+                {% for pr in karty if pr.cis_karta.typk_id == 12 %} <!-- 12 = prilezitosti a rizika -->
+                    <tr>
+                        <td>{{ pr.cis_karta.nazev }}</td>
+                        <td>{{ pr.cis_karta.popis }}</td>
+                        <td>{{ pr.cis_karta.castka }}</td>
+                        <td> -- firma vlastnící kartu -- </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <br>
+
+        <div class="w3-container">
+            <div class="w3-bar-item w3-large"><b>Výzvy</b></div>
+            <table class="w3-table-all w3-centered w3-card-4">
+                <tr class="w3-green">
+                    <th>Název</th>
+                    <th>Popis</th>
+                    <th>Částka</th>
+                    <th>firma</th>
+                </tr>
+                {% for vyzva in karty if vyzva.cis_karta.typk_id == 11 %} <!-- 11 = vyzvy -->
+                    <tr>
+                        <td>{{ vyzva.cis_karta.nazev }}</td>
+                        <td>{{ vyzva.cis_karta.popis }}</td>
+                        <td>{{ vyzva.cis_karta.castka }}</td>
+                        <td> -- firma vlastnící kartu -- </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <br>
+
+        <div class="w3-container">
+            <div class="w3-bar-item w3-large"><b>Hrozby</b></div>
+            <table class="w3-table-all w3-centered w3-card-4">
+                <tr class="w3-red">
+                    <th>Název</th>
+                    <th>Popis</th>
+                    <th>Částka</th>
+                    <th>firma</th>
+                </tr>
+                {% for hrozba in karty if hrozba.cis_karta.typk_id == 13 %} <!-- 13 = hrozby -->
+                    <tr>
+                        <td>{{ hrozba.cis_karta.nazev }}</td>
+                        <td>{{ hrozba.cis_karta.popis }}</td>
+                        <td>{{ hrozba.cis_karta.castka }}</td>
+                        <td> -- firma vlastnící kartu -- </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

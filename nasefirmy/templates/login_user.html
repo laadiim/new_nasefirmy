@@ -1,0 +1,40 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<h3>Přihlášení:</h3>
+
+<form class="form" role="form" method="post" action="/login/">
+    {{ form.csrf_token }}
+
+    <div class="container">
+        <!--<label><b>Jméno:</b></label>-->
+        <!--<br>-->
+        {{ form.name(placeholder="jméno") }}
+        <span class="error">
+            {% if form.name.errors %}
+                {% for error in form.name.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
+        </span>
+        <!--<br>-->
+        <!--<br>-->
+        <!--<label><b>Heslo: </b></label>-->
+        <br>
+        {{ form.password(placeholder="heslo") }}
+        <span class="error">
+            {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
+        </span>
+      </div>
+
+    <br>
+    <br>
+    <button class="btnconf" type="submit">Přihlásit</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<!-- Vyber karet -->
+<br>
+<form method="post" action="/setup_cards/">
+    {{ form.csrf_token }}
+
+    <div class="w3-cell-row">
+
+        <!-- PRILEZITOSTI A RIZIKA -->
+        <div class="w3-container w3-cell">
+            <div class="w3-bar-item w3-large w3-blue"><b>Příležitosti a Rizika</b></div>
+            <table class="w3-table-all w3-centered w3-card-4">
+                <tr>
+                    <th>Kolo</th>
+                    <th>Karta</th>
+                </tr>
+                {% for i in range(n_kol) %}
+                    <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>
+                            <select name={{ 'pr_' + i|string }} width="100px">
+                                {% for card in pr_cards %}
+                                    <option value={{ card.karta_id }}>{{ card.nazev }}, ID: {{ card.karta_id }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <br>
+
+        <!-- VYZVY -->
+        <div class="w3-container w3-cell">
+        <div class="w3-bar-item w3-large w3-green"><b>Výzvy</b></div>
+            <table class="w3-table-all w3-centered w3-card-4">
+                <tr>
+                    <th>Kolo</th>
+                    <th>Karta</th>
+                </tr>
+                {% for i in range(n_vyz) %}
+                    <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>
+                            <select name={{ 'vyz_' + i|string }} width="100px">
+                                {% for card in vyz_cards %}
+                                    <option value={{ card.karta_id }}>{{ card.nazev }}, ID: {{ card.karta_id }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <br>
+
+        <!-- HROZBY -->
+        <div class="w3-container w3-cell">
+            <table class="w3-table-all w3-centered w3-card-4">
+                <tr class="w3-red">
+                    <th>Hrozby</th>
+                </tr>
+                {% for i in range(n_hrz) %}
+                    <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>
+                            <select name={{ 'hrz_' + i|string }} width="100px">
+                                {% for card in hrz_cards %}
+                                    <option value={{ card.karta_id }}>{{ card.nazev }}, ID: {{ card.karta_id }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <br>
+    <button class="btnconf" type="submit">OK</button>
+    <br>
+</form>
+
+{% endblock %}
+
+<script>
+function createName(){
+
+}
+</script>

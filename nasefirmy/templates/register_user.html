@@ -1,0 +1,43 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<h1>Naše firmy</h1>
+<h3>Pro přístup k hernímu účtu se musíš registrovat.</h3>
+<form method="POST" action="/register/">
+  {{ form.csrf_token }}
+  <p>
+    Jméno: {{ form.name(placeholder="jméno") }}
+    {% if form.name.errors %}
+      <span class="error">
+        {% for error in form.name.errors %}
+          {{ error }}
+        {% endfor %}
+      </span>
+    {% endif %}
+  </p>
+  <p>
+    Heslo: {{ form.password(placeholder="heslo") }}
+    {% if form.password.errors %}
+      <span class="error">
+        {% for error in form.password.errors %}
+          {{ error }}
+        {% endfor %}
+      </span>
+    {% endif %}
+  </p>
+  <p>
+    Potvrzení hesla: {{ form.confirm(placeholder="potvrď heslo") }}
+    {% if form.confirm.errors %}
+      <span class="error">
+        {% for error in form.confirm.errors %}
+          {{ error }}
+        {% endfor %}
+      </span>
+    {% endif %}
+  </p>
+  <button class="btn btn-sm btn-success" type="submit">Registruj</button>
+  <br>
+  <p><em>Již jsi registrován?</em> Přihlaš se <a href="/">tady</a>.</p>
+</form>
+
+{% endblock %}

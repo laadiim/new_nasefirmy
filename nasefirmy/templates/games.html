@@ -1,0 +1,272 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<h2>Výběr hry</h2>
+<form method="post" action="/set_game/">
+    <div class="w3-gray w3-large">
+        Hra:
+        <select name="select_hra" width="100px">
+            {% for hra in hry %}
+                <option value={{ hra.hra_id }}>id: {{ hra.hra_id }}, nazev: {{ hra.nazev}}, {{ hra.dat_hrani }}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-sm btn-success" name="set" type="submit">OK</button>
+    </div>
+</form>
+
+<br>
+
+<h2>Založení hry</h2>
+<form method="post" action="/create_game/">
+    {{ form.csrf_token }}
+
+    <!-- nazev -->
+    <p>
+        Název: {{ form.nazev(placeholder="název") }}
+        {% if form.nazev.errors %}
+            <span class="error">
+                {% for error in form.nazev.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+
+    <!-- datum -->
+    <p>
+        Datum: {{ form.dat_hrani(placeholder="datum hraní") }}
+        {% if form.dat_hrani.errors %}
+            <span class="error">
+                {% for error in form.dat_hrani.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+
+    <!-- misto -->
+    <p>
+       Místo:
+        <select name="misto_id" width="100px">
+            {% for misto in mista %}
+                <option value="1">{{ misto.nazev }}, {{ misto.ulice}}, {{ misto.obec }}</option>
+            {% endfor %}
+        </select>
+
+        {% if form.misto_id.errors %}
+            <span class="error">
+                {% for error in form.misto_id.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+        <!-- Pridat moznost registrace noveho mista -->
+    </p>
+
+    <!-- popis -->
+    <p>
+        Popis: {{ form.popis(placeholder="popis") }}
+        {% if form.popis.errors %}
+            <span class="error">
+                {% for error in form.popis.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+
+    <!-- klic hry -->
+    <p>
+        Klíč: {{ form.klic(placeholder="klíč") }}
+        {% if form.klic.errors %}
+            <span class="error">
+                {% for error in form.klic.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+
+    <!-- pocet tymu -->
+    <p>
+        Počet týmů: {{ form.poc_tymu(placeholder="počet týmů") }}
+        {% if form.poc_tymu.errors %}
+            <span class="error">
+                {% for error in form.poc_tymu.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+
+    <!-- pocatecni majetek -->
+    <p>
+        Počáteční majetek: {{ form.majetek(placeholder="počáteční majetek") }}
+        {% if form.majetek.errors %}
+            <span class="error">
+                {% for error in form.majetek.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+
+    <!-- pocet karet za kolo -->
+    <p>
+        Karty za kolo: {{ form.karty_za_kolo(placeholder="počet investic za kolo") }}
+        {% if form.karty_za_kolo.errors %}
+            <span class="error">
+                {% for error in form.karty_za_kolo.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+
+    <!-- pocet kol -->
+    <p>
+        Počet kol: {{ form.poc_kol(placeholder="počet kol") }}
+        {% if form.poc_kol.errors %}
+            <span class="error">
+                {% for error in form.poc_kol.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+
+    <!-- Marketing -->
+    <p>
+        <b>MARKETING:</b>
+        <br>
+        <!-- mkt nazev -->
+        Odměna za název: {{ form.mkt_nazev(placeholder="částka") }}
+        {% if form.mkt_nazev.errors %}
+            <span class="error">
+                {% for error in form.mkt_nazev.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+
+        <!-- mkt logo -->
+        Odměna za logo: {{ form.mkt_logo(placeholder="částka") }}
+        {% if form.mkt_logo.errors %}
+            <span class="error">
+                {% for error in form.mkt_logo.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+
+        <!-- mkt zprava -->
+        Odměna za napsání MZ: {{ form.mkt_zprava(placeholder="částka") }}
+        {% if form.mkt_zprava.errors %}
+            <span class="error">
+                {% for error in form.mkt_zprava.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+
+
+    <p>
+        <b>MARKETINGOVÉ ZPRÁVY:</b>
+        <br>
+       <!-- odmena za nejlepsi MZ -->
+        Odměna za nejlepší MZ: {{ form.odm_zprava(placeholder="částka") }}
+        {% if form.odm_zprava.errors %}
+            <span class="error">
+                {% for error in form.odm_zprava.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+
+        <!-- odmena za hlas pro nejlepsi MZ -->
+        Odměna za hlas pro nejlepší MZ: {{ form.odm_zprava_hlas(placeholder="částka") }}
+        {% if form.odm_zprava_hlas.errors %}
+            <span class="error">
+                {% for error in form.odm_zprava_hlas.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+
+    <!-- ROBOT -->
+    <p>
+        <b>ROBOT:</b>
+        <br>
+       <!-- odmena robot-skelet -->
+        Odměna za nejlepší robot-skelet: {{ form.odm_robot1(placeholder="částka") }}
+        {% if form.odm_robot1.errors %}
+            <span class="error">
+                {% for error in form.odm_robot1.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+
+        <!-- odmena robot-skelet hlas -->
+        Odměna za hlas pro nejlepší skelet: {{ form.odm_robot1_hlas(placeholder="částka") }}
+        {% if form.odm_robot1_hlas.errors %}
+            <span class="error">
+                {% for error in form.odm_robot1_hlas.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+
+        <br>
+        <!-- odmena robot-maska -->
+        Odměna za nejlepší masku: {{ form.odm_robot2(placeholder="částka") }}
+        {% if form.odm_robot2.errors %}
+            <span class="error">
+                {% for error in form.odm_robot2.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+
+        <!-- odmena robot-maska hlas -->
+        Odměna za hlas pro nejlepší masku: {{ form.odm_robot2_hlas(placeholder="částka") }}
+        {% if form.odm_robot2_hlas.errors %}
+            <span class="error">
+                {% for error in form.odm_robot2_hlas.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+
+        <br>
+        <!-- odmena robot-disky -->
+        Odměna za nejlepší disky: {{ form.odm_robot3(placeholder="částka") }}
+        {% if form.odm_robot3.errors %}
+            <span class="error">
+                {% for error in form.odm_robot3.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+
+        <!-- odmena robot-disky hlas -->
+        Odměna za hlas pro nejlepší disky: {{ form.odm_robot3_hlas(placeholder="částka") }}
+        {% if form.odm_robot3_hlas.errors %}
+            <span class="error">
+                {% for error in form.odm_robot3_hlas.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+
+    <!-- Zaloz hru BTN -->
+    <button class="btnconf" type="submit">Založ hru</button>
+    <br>
+</form>
+<br>
+
+{% endblock %}

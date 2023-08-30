@@ -1,0 +1,93 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<div class="entries">
+    <h2>Místa v databázi:</h2>
+    <div class="datagrid">
+        <table>
+            <thead>
+            <tr>
+                <th width="100px"><strong>Název</strong></th>
+                <th width="140px"><strong>Ulice</strong></th>
+                <th width="100px"><strong>Obec</strong></th>
+                <th width="60px"><strong>PSČ</strong></th>
+                <th width="100px"><strong>Souřadnice</strong></th>
+            </tr>
+            </thead>
+            {% for misto in mista %}
+                <tr>
+                    <td>{{ misto.nazev }}</td>
+                    <td>{{ misto.ulice }}</td>
+                    <td>{{ misto.obec }}</td>
+                    <td>{{ misto.psc }}</td>
+                    <td>{{ misto.souradnice }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<br>
+<h2>Registrace nového místa</h2>
+<form action="/register_place/" method="post">
+<!--<form action="{{ url_for('register_place') }}" method="post">-->
+    {{ form.csrf_token }}
+    <p>
+        {{ form.nazev(placeholder="název") }}
+        {% if form.nazev.errors %}
+            <span class="error">
+                {% for error in form.nazev.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+    <p>
+        {{ form.ulice(placeholder="ulice") }}
+        {% if form.ulice.errors %}
+            <span class="error">
+                {% for error in form.ulice.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+    <p>
+        {{ form.obec(placeholder="obec") }}
+        {% if form.obec.errors %}
+            <span class="error">
+                {% for error in form.obec.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+    <p>
+        {{ form.psc(placeholder="PSČ") }}
+        {% if form.psc.errors %}
+            <span class="error">
+                {% for error in form.psc.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+    <p>
+        {{ form.souradnice(placeholder="souřadnice") }}
+        {% if form.souradnice.errors %}
+            <span class="error">
+                {% for error in form.souradnice.errors %}
+                    {{ error }}
+                {% endfor %}
+            </span>
+        {% endif %}
+    </p>
+    <button class="btn btn-sm btn-success" name="register" type="submit">Registruj místo</button>
+    <br>
+</form>
+<br>
+<!--<form action="/home/" method="post">-->
+    <!--<button class="btn btn-sm btn-success" type="submit">Domů</button>-->
+<!--</form>-->
+
+{% endblock %}
