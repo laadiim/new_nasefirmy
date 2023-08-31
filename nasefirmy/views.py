@@ -61,9 +61,6 @@ HRZ = 13
 #     inv_dict[ctype.kod] = ctype.typk_id
 inv_dict = {'VVJ': 1, 'VRB': 2, 'OBD': 3, 'SRV': 4, 'MKT': 5, 'POJ': 6, 'EXP': 7, 'PUJ': 8}
 
-# timer pro obnovovani druhe admin stranky (ms)
-timer = 3000
-
 
 class GameState():
     def __init__(self):
@@ -234,7 +231,7 @@ def render_game(error, teams_error="", control=True, first=False):
     print("Error: {} ".format(tce))
     return render_template('game.html',team_check_error=tce, error_teams=teams_error, game=game, cards_info=cards_info, pujcky=pujcky, majetek=majetek,
                            mkt_mess_form=mkt_mess_form, mkt_mess_voting_form=mkt_mess_voting_form,
-                           payment_form=payment_form, winners_PR=game.winners_PR, control=control, first=first, timer=timer)
+                           payment_form=payment_form, winners_PR=game.winners_PR, control=control, first=first)
 
 
 def team_id2team_name(team_id):

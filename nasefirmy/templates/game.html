@@ -135,7 +135,7 @@
 
 
     <!-- DASHBOARD -->
-    <div class="w3-cell-row" id="content">
+    <div class="w3-cell-row" id="stuff">
         <div class="w3-container w3-cell">
             <!-- prehled -->
             <div class="w3-bar-item w3-large"><b>Přehled investic</b></div>
@@ -334,6 +334,10 @@
                     </form>
                 {% endif %}
             {% endif %}
+            {% if control==False %}
+                    <img src="../static/image/nvias.png">
+                    <img src="../static/image/sitport.png">
+            {% endif %}
         </div>
         <!-- Pravy sloupec -->
         <div class="w3-container w3-cell" style="width:50%">
@@ -411,8 +415,8 @@
                 document.forms['newAdminTab'].submit();
             }
             window.setInterval(function(){
-                $('#content').load(' #content');
-            }, timer)
+                $('#stuff').load(' #stuff');
+            }, 3000)
         </script>
     {% endif %}
     <!-- GRAPH -->
