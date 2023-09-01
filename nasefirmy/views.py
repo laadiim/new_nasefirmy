@@ -1343,7 +1343,10 @@ def round_processor(action):
         if game.round_no < game.round_count:
 
             start_round()
-            return redirect("/")
+            if game.role == 'admin':
+                return redirect("/new_admin_tab")
+            else:
+                return redirect("/")
         else:
             logprint("ERROR Toto je poslední kolo")
 
@@ -1354,7 +1357,10 @@ def round_processor(action):
         if len(teamsLocal) == 0:
             investmentCheck = []
             stop_round()
-            return redirect("/")
+            if game.role == 'admin':
+                return redirect("/new_admin_tab")
+            else:
+                return redirect("/")
         else:
             print("ERROR")
             for i in teamsLocal:
@@ -1363,7 +1369,10 @@ def round_processor(action):
 
     elif action == 'eval':
         eval_round()
-        return redirect("/")
+        if game.role == 'admin':
+            return redirect("/new_admin_tab")
+        else:
+            return redirect("/")
     
     return render_game(error, t[:-2])
 
