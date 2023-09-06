@@ -1145,6 +1145,7 @@ def secret_admin_login():
 @app.route('/new_admin_tab/')
 def new_admin_tab():
     error = None
+    game.login('admin', 0, 'admin', game.hra_id)
     return render_game(error)
 
 
@@ -1506,7 +1507,7 @@ def special_payment():
         db.session.commit()
         logprint("Speciální platba pro '{}', částka = {}, popis = '{}'".format(team_id2team_name(team_id), amount, desc))
 
-        return redirect(url_for('home'))
+        return redirect(url_for('new_admin_tab'))
         # return redirect(url_for('render_game'))
     else:
         return render_game(error)
@@ -1543,7 +1544,7 @@ def action_back():
 
             db.session.commit()
 
-    return redirect('/')
+    return redirect('/new_admin_tab/')
 
 
 

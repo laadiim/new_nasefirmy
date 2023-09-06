@@ -80,7 +80,9 @@
     <br>
     <br>
     {% elif game.role == 'admin' %}
-    <h3>Role: Admin</h3>
+        {% if control == True %}
+            <h3>Role: Admin</h3>
+        {% endif %}
     <!--<br>-->
         {% if control == True %}
             <div class="w3-left">
@@ -135,11 +137,11 @@
 
 
     <!-- DASHBOARD -->
-    <div class="w3-cell-row" id="stuff">
+    <div class="w3-cell-row">
         <div class="w3-container w3-cell">
             <!-- prehled -->
             <div class="w3-bar-item w3-large"><b>Přehled investic</b></div>
-            <table class="w3-table-all w3-centered w3-card-4">
+            <table class="w3-table-all w3-centered w3-card-4" id="leva">
                 <tr class="w3-blue">
                     <th>Firmy</th>
                     <!--<th>Vývoj</th>-->
@@ -342,7 +344,7 @@
             {% endif %}
         </div>
         <!-- Pravy sloupec -->
-        <div class="w3-container w3-cell" style="width:50%">
+        <div class="w3-container w3-cell" style="width:50%" id="prava">
             <div class="w3-container">
                 <div class="w3-bar-item w3-large"><b>Příležitosti a Rizika</b></div>
                 <table class="w3-table-all w3-centered w3-card-4">
@@ -417,7 +419,10 @@
                 document.forms['newAdminTab'].submit();
             }
             window.setInterval(function(){
-                $('#stuff').load(' #stuff');
+                $('#leva').load(' #leva');
+            }, 3000)
+            window.setInterval(function(){
+                $('#prava').load(' #prava');
             }, 3000)
         </script>
     {% endif %}
