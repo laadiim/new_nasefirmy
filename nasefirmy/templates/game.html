@@ -2,7 +2,7 @@
 {% block content %}
 
 {% if control == False %}
-    <div style="font-size:medium; margin:auto;">Kolo: {{ game.round_no }}</div>
+    <div style="font-size:medium; justify-content:center; display:flex">Kolo: {{ game.round_no }}</div>
 {% endif %}
 {% if game.role == 'ROM' %}
     <h2>Firma: <b>{{ game.team_name }}</b></h2>
