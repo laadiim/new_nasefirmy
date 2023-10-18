@@ -1,6 +1,9 @@
 {% extends "_base.html" %}
 {% block content %}
 
+{% if control == False %}
+    <div style="font-size:medium; margin:auto;">Kolo: {{ game.round_no }}</div>
+{% endif %}
 {% if game.role == 'ROM' %}
     <h2>Firma: <b>{{ game.team_name }}</b></h2>
     <h4>Role: Ředitel / Obchod / Marketing</h4>
