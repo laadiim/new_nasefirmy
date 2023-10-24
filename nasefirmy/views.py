@@ -1557,3 +1557,8 @@ def graph():
         graph_data = None
 
     return render_template('graph.html', game=game, graph_data=graph_data)
+
+@app.route("/dashboard/", methods=['GET', 'POST'])
+def dashboard():
+    error=None
+    return render_game(error, control=False)

@@ -2,7 +2,10 @@
 {% block content %}
 
 {% if control == False %}
-    <div style="font-size:20px; justify-content:center; display:flex; font-weight:bold; margin:10px" id="kolo">Kolo: {{ game.round_no }}</div>
+    <div style="font-size:30px; justify-content:center; display:flex; font-weight:bold; margin:10px" id="kolo">Kolo: {{ game.round_no }}</div>
+    <div style="display:flex; justify-content:center; margin:10px;">
+        <a href="{{ url_for('graph') }}" class="w3-bar-item w3-button w3-blue">Graf majetku</a>
+    </div>
 {% endif %}
 {% if game.role == 'ROM' %}
     <h2>Firma: <b>{{ game.team_name }}</b></h2>
@@ -94,6 +97,7 @@
                 <a href="{{ url_for('setup_cards') }}" class="w3-bar-item w3-button w3-blue">Vybrat karty pro hru</a>
                 <a href="{{ url_for('set_game') }}" class="w3-bar-item w3-button w3-blue">Vybrat hru</a>
                 <a href="{{ url_for('register_teams') }}" class="w3-bar-item w3-button w3-blue">Registrovat týmy</a>
+                <a href="{{ url_for('dashboard') }}" class="w3-bar-item w3-button w3-blue" target="_blank">Dashboard</a>
                 <!--<a href="{{ url_for('run_game') }}" class="w3-bar-item w3-button w3-blue">Spustit hru</a>-->
                 <a href="{{ url_for('graph') }}" class="w3-bar-item w3-button w3-blue">Graf majetku</a>
             </div>
