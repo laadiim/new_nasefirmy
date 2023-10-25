@@ -26,6 +26,7 @@ from itertools import accumulate
 from datetime import datetime
 from collections import namedtuple, defaultdict, Counter
 import pygal
+import os
 
 investmentCheck = []
 teamsRef = []
@@ -1562,3 +1563,8 @@ def graph():
 def dashboard():
     error=None
     return render_game(error, control=False)
+
+@app.route("/logo_select/", methods=['GET', 'POST'])
+def logo_select():
+    images = os.listdir("nasefirmy\static\image\loga")
+    return render_template('logos.html', images=images)
