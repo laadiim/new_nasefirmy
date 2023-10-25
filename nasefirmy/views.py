@@ -1566,5 +1566,10 @@ def dashboard():
 
 @app.route("/logo_select/", methods=['GET', 'POST'])
 def logo_select():
-    images = os.listdir("nasefirmy\static\image\loga")
+    images = []
+    for filename in os.listdir('../static/images/loga/'):
+        if filename.endswith(".jpg"):
+            images.append(os.path.join('../static/images/loga/', filename))
+        else:
+            continue
     return render_template('logos.html', images=images)
