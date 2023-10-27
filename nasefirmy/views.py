@@ -1567,7 +1567,7 @@ def dashboard():
 @app.route("/logo_select/", methods=['GET', 'POST'])
 def logo_select():
     images = []
-    for filename in os.listdir('../static/images/loga/'):
+    for filename in os.listdir('/static/images/loga/'):
         if filename.endswith(".jpg"):
             images.append(os.path.join('../static/images/loga/', filename))
         else:
