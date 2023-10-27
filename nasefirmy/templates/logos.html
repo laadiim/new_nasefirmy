@@ -1,10 +1,20 @@
 {% extends "_base.html" %}
 {% block content %}
 
-{% for image in images %}
 
-<img src="{{ image }}">
+<ul>
+    {% for image in images %}
+        <li>{{ image }}</li>
+        <li><img src="{{ image }}"></li>
 
-{% endfor %}
+    {% endfor %}
+</ul>
+
+<script>
+    let a = {{ images }};
+    a.foreach(function(entry){
+        console.log(entry);
+    });
+</script>
 
 {% endblock %}
