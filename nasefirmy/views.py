@@ -1572,4 +1572,5 @@ def logo_select():
             images.append(os.path.join('../static/image/loga/', filename))
         else:
             continue
+        print(images)
     return render_template('logos.html', game=game, images=images)
