@@ -2,19 +2,13 @@
 {% block content %}
 
 
-<!--<ul>
+<ul>
     {% for image in images %}
-        <li>{{ image }}</li>
-        <li><img src="{{ image }}"></li>
-
+        <script>
+            console.log({{ image }});
+        </script>
     {% endfor %}
-</ul>-->
+</ul>
 
-<script>
-    let a = {{ images }};
-    a.foreach(function(entry){
-        console.log(entry);
-    });
-</script>
 
 {% endblock %}
