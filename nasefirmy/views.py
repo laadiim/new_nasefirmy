@@ -12,6 +12,7 @@ from functools import wraps
 from flask import flash, redirect, render_template, request, session, url_for, Blueprint
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func, update
+from werkzeug.utils import secure_filename
 
 from nasefirmy.forms import RegisterUserForm, TeamForm, TeamsListForm, RegisterPlaceForm, LoginTeamForm, \
     CreateGameForm, MktMessageForm, MktMessageVotingForm, SpecialPaymentForm, CardForm, CardsListForm
@@ -1568,9 +1569,18 @@ def dashboard():
 def logo_select():
     images = []
     for filename in os.listdir('nasefirmy/static/image/loga/'):
-        if filename.endswith(".jpg"):
+        if filename.endswith(".png"):
             images.append(os.path.join('../static/image/loga/', filename))
         else:
             continue
-        print(images)
     return render_template('logos.html', game=game, images=images)
+
+@app.route("/update_logos/" methods=['POST'])
+def update_logos():
+    if 'file' in request.files:
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        file.save(f'nasefirmy/static/image/loga/{filename}')
+        return render_template('File uploaded successfully')
+
+    return render_template('No file uploaded')
