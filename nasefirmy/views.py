@@ -1575,7 +1575,7 @@ def logo_select():
             continue
     return render_template('logos.html', game=game, images=images)
 
-@app.route("/update_logos/" methods=['POST'])
+@app.route("/update_logos/" methods=['GET', 'POST'])
 def update_logos():
     if 'file' in request.files:
         file = request.files['file']
