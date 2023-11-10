@@ -63,6 +63,10 @@ HRZ = 13
 #     inv_dict[ctype.kod] = ctype.typk_id
 inv_dict = {'VVJ': 1, 'VRB': 2, 'OBD': 3, 'SRV': 4, 'MKT': 5, 'POJ': 6, 'EXP': 7, 'PUJ': 8}
 
+UPLOAD_FOLDER = './uploads/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+
 
 class GameState():
     def __init__(self):
@@ -160,6 +164,14 @@ game = GameState()
 #### helper functions ####
 ##########################
 
+
+def allowed_file(filename):
+    pos = filename.find('.')
+    end = filename[pos+1:]
+    if end in ALLOWED_EXTENSIONS:
+        return True
+    else:
+        return False
 
 def login_required(test):
     @wraps(test)
@@ -1575,12 +1587,21 @@ def logo_select():
             continue
     return render_template('logos.html', game=game, images=images)
 
-@app.route("/update_logos/" methods=['GET', 'POST'])
+@app.route("/update_logos/", methods=['GET', 'POST'])
 def update_logos():
-    if 'file' in request.files:
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
         file = request.files['file']
-        filename = secure_filename(file.filename)
-        file.save(f'nasefirmy/static/image/loga/{filename}')
-        return render_template('File uploaded successfully')
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return redirect(url_for('/logo_select/'))
 
-    return render_template('No file uploaded')
