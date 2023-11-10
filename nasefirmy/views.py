@@ -63,7 +63,6 @@ HRZ = 13
 #     inv_dict[ctype.kod] = ctype.typk_id
 inv_dict = {'VVJ': 1, 'VRB': 2, 'OBD': 3, 'SRV': 4, 'MKT': 5, 'POJ': 6, 'EXP': 7, 'PUJ': 8}
 
-UPLOAD_FOLDER = './uploads/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 
@@ -164,14 +163,6 @@ game = GameState()
 #### helper functions ####
 ##########################
 
-
-def allowed_file(filename):
-    pos = filename.find('.')
-    end = filename[pos+1:]
-    if end in ALLOWED_EXTENSIONS:
-        return True
-    else:
-        return False
 
 def login_required(test):
     @wraps(test)
@@ -1593,15 +1584,17 @@ def update_logos():
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
-            return redirect(request.url)
+            return redirect('/logo_select/')
         file = request.files['file']
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == '':
             flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
+            return redirect('/logo_select/')
+        if file and '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS:
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return redirect(url_for('/logo_select/'))
+            file.save(os.path.join('nasefirmy/static/iamge/loga', filename))
+        return redirect('/logo_select/')
+    else:
+        return redirect('/logo_select/')
 
