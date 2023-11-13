@@ -10,3 +10,7 @@ RUN pip3 install -r requirements.txt
 EXPOSE 5000
 
 CMD . ./venv/bin/activate && FLASK_APP=run.py flask run
+
+WORKDIR /app
+
+COPY . /app
