@@ -9,7 +9,7 @@
 #################
 
 from functools import wraps
-from flask import flash, redirect, render_template, request, session, url_for, Blueprint
+from flask import flash, redirect, render_template, request, session, url_for, Blueprint, get_flashed_messages
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func, update
 from werkzeug.utils import secure_filename
@@ -1570,6 +1570,7 @@ def dashboard():
 
 @app.route("/logo_select/", methods=['GET', 'POST'])
 def logo_select():
+    get_flashed_messages()
     images = []
     for filename in os.listdir('nasefirmy/static/image/loga/'):
         if filename.endswith(".png"):
@@ -1594,6 +1595,7 @@ def update_logos():
         if file and '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS:
             filename = secure_filename(file.filename)
             file.save(os.path.join('nasefirmy/static/iamge/loga', filename))
+            flash('loaded')
         return redirect('/logo_select/')
     else:
         return redirect('/logo_select/')
