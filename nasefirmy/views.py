@@ -1592,7 +1592,7 @@ def update_logos():
         if file.filename == '':
             flash('No selected file')
             return redirect('/logo_select/')
-        if file and '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS:
+        if file:
             filename = secure_filename(file.filename)
             file.save(os.path.join('nasefirmy/static/iamge/loga', filename))
             flash('loaded')

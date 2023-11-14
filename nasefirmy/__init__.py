@@ -5,10 +5,12 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+import os
 # from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 app.config.from_pyfile('_config.py')
+app.config["UPLOAD_FOLDER"] = os.getcwd()
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
