@@ -1610,8 +1610,7 @@ def update_logos():
         if file and filename[(filename.find('.')+1):] in ALLOWED_EXTENSIONS:
             filename = secure_filename(file.filename)
             file.save(os.path.join('nasefirmy/static/image/loga', filename))
-            if not filename.endswith('png'):
-                resize_image(filename, filename.replace(filename[(filename.find('.')+1):], '.png'))
+            resize_image(filename, filename.replace(filename[(filename.find('.')+1):], '.png'))
                 
         return redirect('/logo_select/')
     else:
