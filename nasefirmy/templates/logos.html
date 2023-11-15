@@ -1,7 +1,7 @@
 {% extends "_base.html" %}
 {% block content %}
 
-<form action="/update_logos/" id="img_form">
+<form action="/update_logos/" id="img_form" method="post">
     {% for image in images %}
         <input type="checkbox" value="{{ image }}" id="{{ image }}">
         <label for="{{ image }}"><img src="{{ image }}" style="width:500px; height:auto;" ></label><br>
