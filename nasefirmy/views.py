@@ -13,6 +13,7 @@ from flask import flash, redirect, render_template, request, session, url_for, B
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func, update
 from werkzeug.utils import secure_filename
+from PIL import Image
 
 from nasefirmy.forms import RegisterUserForm, TeamForm, TeamsListForm, RegisterPlaceForm, LoginTeamForm, \
     CreateGameForm, MktMessageForm, MktMessageVotingForm, SpecialPaymentForm, CardForm, CardsListForm
@@ -163,6 +164,20 @@ game = GameState()
 #### helper functions ####
 ##########################
 
+
+def resize_image(input_path, output_path, target_width=1096):
+    # Open the image file
+    with Image.open(input_path) as img:
+        # Calculate the aspect ratio to maintain the original image's proportions
+        aspect_ratio = img.width / img.height
+        target_height = int(target_width / aspect_ratio)
+
+        # Resize the image
+        resized_img = img.resize((target_width, target_height), Image.ANTIALIAS)
+
+        # Save the resized image as PNG
+        resized_img.save(output_path, 'PNG')
+        os.remove(input_path)
 
 def login_required(test):
     @wraps(test)
@@ -1592,11 +1607,17 @@ def update_logos():
         if file.filename == '':
             flash('No selected file')
             return redirect('/logo_select/')
-        if file:
+        if file and filename[(filename.find('.')+1):] in ALLOWED_EXTENSIONS:
             filename = secure_filename(file.filename)
-            file.save(os.path.join('nasefirmy/static/iamge/loga', filename))
-            flash('loaded')
+            file.save(os.path.join('nasefirmy/static/image/loga', filename))
+            if not filename.endswith('png'):
+                resize_image(filename, filename.replace(filename[(filename.find('.')+1):], '.png'))
+                
         return redirect('/logo_select/')
     else:
         return redirect('/logo_select/')
+    
+@app.route("/select_logos/", methods=['POST'])
+def select_logos():
+    return redirect('/logo_select/')
 

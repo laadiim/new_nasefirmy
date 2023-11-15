@@ -1,15 +1,18 @@
 {% extends "_base.html" %}
 {% block content %}
 
-<form action="/update_logos/" id="img_form" method="post">
+<form action="/select_logos/" id="img_form" method="post">
     {% for image in images %}
         <input type="checkbox" value="{{ image }}" id="{{ image }}">
         <label for="{{ image }}"><img src="{{ image }}" style="width:500px; height:auto;" ></label><br>
     {% endfor %}
-    <label for="myfile">Select a file:</label>
-    <input type="file" id="file" name="file">
     <button type="submit">Submit</button>
     <button id="update_form">Obnovit</button>
+</form>
+<form action="/update_logos/" method="post" enctype="multipart/form-data">
+  <label for="file">Select a file:</label>
+  <input type="file" id="file" name="file">
+  <button type="submit">Submit</button>
 </form>
 {% with messages = get_flashed_messages() %}
   {% if messages %}
