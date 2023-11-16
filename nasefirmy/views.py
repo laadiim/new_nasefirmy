@@ -1602,15 +1602,15 @@ def update_logos():
             flash('No file part')
             return redirect('/logo_select/')
         file = request.files['file']
+        filename = secure_filename(file.filename)
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == '':
             flash('No selected file')
             return redirect('/logo_select/')
-        if file and filename[(filename.find('.')+1):] in ALLOWED_EXTENSIONS:
-            filename = secure_filename(file.filename)
+        if file and (filename.endswith('.png') or filename.endswith('.jpeg') or filename.endswith('.jpg')):
             file.save(os.path.join('nasefirmy/static/image/loga', filename))
-            resize_image(filename, filename.replace(filename[(filename.find('.')+1):], '.png'))
+            resize_image(os.path.join('nasefirmy/static/image/loga', filename), os.path.join('nasefirmy/static/image/loga', filename.replace(filename[(filename.find('.')+1):], '.png')))
                 
         return redirect('/logo_select/')
     else:
