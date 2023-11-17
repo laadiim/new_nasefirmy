@@ -222,6 +222,12 @@ def render_game(error, teams_error="", control=True, first=False):
     #     graph_data = get_graph_data()
     # else:
     #     graph_data = None
+    images = []
+    for filename in os.listdir('nasefirmy/static/image/loga/'):
+        if filename.endswith(".png"):
+            images.append(os.path.join('../static/image/loga/', filename))
+        else:
+            continue
 
     if game.team_name == 'admin':
         pujcky = []
@@ -251,7 +257,7 @@ def render_game(error, teams_error="", control=True, first=False):
     print("Error: {} ".format(tce))
     return render_template('game.html',team_check_error=tce, error_teams=teams_error, game=game, cards_info=cards_info, pujcky=pujcky, majetek=majetek,
                            mkt_mess_form=mkt_mess_form, mkt_mess_voting_form=mkt_mess_voting_form,
-                           payment_form=payment_form, winners_PR=game.winners_PR, control=control, first=first)
+                           payment_form=payment_form, winners_PR=game.winners_PR, control=control, first=first, images=images)
 
 
 def team_id2team_name(team_id):
