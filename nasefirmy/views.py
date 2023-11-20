@@ -165,15 +165,20 @@ game = GameState()
 ##########################
 
 
-def resize_image(input_path, output_path, target_width=1096):
+def resize_image(input_path, output_path, target_width=1096, target_height=300):
     # Open the image file
     with Image.open(input_path) as img:
+        aspect_ratio = img.width/img.height
         # Calculate the aspect ratio to maintain the original image's proportions
-        aspect_ratio = img.width / img.height
-        target_height = int(target_width / aspect_ratio)
-
-        # Resize the image
-        resized_img = img.resize((target_width, target_height), Image.ANTIALIAS)
+        resized_img = img
+        while True:
+            if resized_img.width > target_width:
+                resized_img = resized_img.resize((target_width, int(target_width/aspect_ratio)))
+            if resized_img.height > target_height:
+                resized_img = resized_img.resize((int(target_height * aspect_ratio), target_height))
+            
+            if resized_img.width <= target_width and resized_img.height <= target_height:
+                break
 
         # Save the resized image as PNG
         resized_img.save(output_path, 'PNG')
