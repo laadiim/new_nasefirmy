@@ -14,6 +14,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func, update
 from werkzeug.utils import secure_filename
 from PIL import Image
+import json
 
 from nasefirmy.forms import RegisterUserForm, TeamForm, TeamsListForm, RegisterPlaceForm, LoginTeamForm, \
     CreateGameForm, MktMessageForm, MktMessageVotingForm, SpecialPaymentForm, CardForm, CardsListForm
@@ -790,7 +791,7 @@ def home():
         # elif session['username'] == 'ROM':
         #     return render_template('user_home.html', error=error, username=session['username'])
     else:
-        return redirect('/login')
+        return redirect('/login/')
 
 
 @app.route('/logout/')
