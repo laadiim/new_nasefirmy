@@ -10,7 +10,6 @@ jdcal==1.3
 Jinja2==2.9.6
 MarkupSafe
 openpyxl==2.5.1
-pillow
 pycparser==2.18
 pygal==2.4.0
 six==1.10.0

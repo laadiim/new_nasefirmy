@@ -344,13 +344,10 @@
                 {% endif %}
             {% endif %}
             {% if control==False %}
-                <div style="width: auto; height: auto; text-align: center; padding:40px">
-                    {% for image in images %}
-                        <img src="{{ image }}" style="width: auto; height: auto; max-width: 900px; max-height: 500px">
-                    {% endfor %}
+                <div style="width: 100%; height: 100%; text-align: center; padding:40px">
+                    <img src="../static/image/loga/nvias.png" id="nvias" style="width: 80%; height: auto;">
+                    <img src="../static/image/loga/sitport.png" id="sitport" style="width: 80%; height: auto;">
                 </div>
-                
-                
             {% endif %}
         </div>
         <!-- Pravy sloupec -->
@@ -437,61 +434,6 @@
             window.setInterval(function(){
                 $('#kolo').load(' #kolo');
             }, 3000)
-
-
-            /*let images = {{ images|safe }}; // Array of image paths
-            let currentImageIndex = 0;
-            let fadeInterval;
-
-            window.onload = startImageCycle(); 
-
-            function fadeIn(element, duration) {
-                let op = 0.1;  // Initial opacity
-                element.style.opacity = op;
-
-                const fadeInInterval = setInterval(function () {
-                    if (op >= 1) {
-                        clearInterval(fadeInInterval);
-                    }
-                    element.style.opacity = op;
-                    op += op * 0.1;
-                }, duration / 10); // Divide duration into 10 parts for smoother transition
-            }
-
-            function fadeOut(element, duration) {
-                let op = 1;  // Initial opacity
-                element.style.opacity = op;
-
-                const fadeOutInterval = setInterval(function () {
-                    if (op <= 0.1) {
-                        clearInterval(fadeOutInterval);
-                        element.style.display = 'none';
-                    }
-                    element.style.opacity = op;
-                    op -= op * 0.1;
-                }, duration / 10); // Divide duration into 10 parts for smoother transition
-            }
-
-            function showNextImage() {
-                let image = document.getElementById('image');
-                fadeOut(image, 500); // Fade out the current image
-                setTimeout(function () {
-                    currentImageIndex = (currentImageIndex + 1) % images.length; // Get the next image index
-                    image.src = images[currentImageIndex]; // Set the source of the image
-                    fadeIn(image, 500); // Fade in the new image
-                }, 500); // Wait for 500 milliseconds before changing to the next image
-            }
-
-            function startImageCycle() {
-                let image = document.getElementById('image');
-                image.src = images[currentImageIndex]; // Set the initial image
-
-                fadeInterval = setInterval(showNextImage, 3000); // Change image every 3 seconds (3000 milliseconds)
-            }
-
-            function stopImageCycle() {
-                clearInterval(fadeInterval); // Stop the image cycle
-            }*/
         </script>
     {% endif %}
     <!-- GRAPH -->
