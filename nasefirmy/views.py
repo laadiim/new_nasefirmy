@@ -90,6 +90,7 @@ class GameState():
         self.loans_accepted = defaultdict(list)
         # self.invested = defaultdict(lambda: [False, False])
         self.logged_in = False
+        self.images = []
 
     def __repr__(self):
         return 'Game: hra_id={}, teams={}'.format(self.hra_id, [t.tym_id for t in self.teams if t.hra_id == self.hra_id])
@@ -1619,5 +1620,6 @@ def update_logos():
     
 @app.route("/select_logos/", methods=['POST'])
 def select_logos():
+    
     return redirect('/logo_select/')
 
