@@ -345,8 +345,7 @@
             {% endif %}
             {% if control==False %}
                 <div style="width: 100%; height: 100%; text-align: center; padding:40px">
-                    <img src="../static/image/loga/nvias.png" id="nvias" style="width: 80%; height: auto;">
-                    <img src="../static/image/loga/sitport.png" id="sitport" style="width: 80%; height: auto;">
+                    <img src="" style="width: auto; height: auto; max-width: 900px; max-height: 450px" id="image">
                 </div>
             {% endif %}
         </div>
@@ -424,6 +423,16 @@
         <script>
             window.onload = function(){
                 document.forms['newAdminTab'].submit();
+                images = {{ images|safe }}
+                index = 0
+                switchImage(images, 'image', index);
+                window.setInterval(function(){
+                    switchImage(images, 'image', index);
+                    index++; 
+                    if (index == images.length) {
+                        index = 0;
+                    }
+                }, 10000)
             }
             window.setInterval(function(){
                 $('#leva').load(' #leva');
@@ -434,6 +443,10 @@
             window.setInterval(function(){
                 $('#kolo').load(' #kolo');
             }, 3000)
+
+            function switchImage(images, elementID, newIndex) {
+                document.getElementById(elementID).src = images[newIndex];
+            }
         </script>
     {% endif %}
     <!-- GRAPH -->

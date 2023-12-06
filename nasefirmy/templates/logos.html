@@ -4,7 +4,7 @@
 <form action="/select_logos/" id="img_form" method="post">
     {% for image in images %}
         <input type="checkbox" value="{{ image }}" id="{{ image }}">
-        <label for="{{ image }}"><img src="{{ image }}" style="width:500px; height:auto;" ></label><br>
+        <label for="{{ image }}"><img src="{{ image }}" style="width: auto; max-width:1096px; height:auto; max-height: 450px;"></label><br>
     {% endfor %}
     <button type="submit">Submit</button>
     <button id="update_form">Obnovit</button>
