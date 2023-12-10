@@ -419,7 +419,7 @@
     </div>
     {% if first==True %}
         <form action="/new_admin_tab/" target="_blank" name="newAdminTab"></form>
-
+    {% endif %}
         <script>
             window.onload = function(){
                 document.forms['newAdminTab'].submit();
@@ -432,23 +432,24 @@
                     if (index == images.length) {
                         index = 0;
                     }
-                }, 10000)
+                }, 3000)
             }
-            window.setInterval(function(){
-                $('#leva').load(' #leva');
-            }, 3000)
-            window.setInterval(function(){
-                $('#prava').load(' #prava');
-            }, 3000)
-            window.setInterval(function(){
-                $('#kolo').load(' #kolo');
-            }, 3000)
+            {% if control==False %}
+                window.setInterval(function(){
+                    $('#leva').load(' #leva');
+                }, 3000)
+                window.setInterval(function(){
+                    $('#prava').load(' #prava');
+                }, 3000)
+                window.setInterval(function(){
+                    $('#kolo').load(' #kolo');
+                }, 10000)
+            {% endif %}
 
             function switchImage(images, elementID, newIndex) {
                 document.getElementById(elementID).src = images[newIndex];
             }
         </script>
-    {% endif %}
     <!-- GRAPH -->
     <!--<br>-->
     <!--<div class="w3-cell-row">-->

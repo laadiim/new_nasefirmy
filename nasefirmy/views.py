@@ -221,7 +221,7 @@ def render_game(error, teams_error="", control=True, first=False):
     mkt_mess_voting_form = None
     images = []
     for filename in os.listdir('nasefirmy/static/image/loga/'):
-        if filename.endswith(".png"):
+        if filename.endswith(".png") and os.path.join('../static/image/loga/', filename) in game.images:
             images.append(os.path.join('../static/image/loga/', filename))
         else:
             continue
@@ -1586,11 +1586,13 @@ def graph():
     return render_template('graph.html', game=game, graph_data=graph_data)
 
 @app.route("/dashboard/", methods=['GET', 'POST'])
+@admin_required
 def dashboard():
     error=None
     return render_game(error, control=False)
 
 @app.route("/logo_select/", methods=['GET', 'POST'])
+@admin_required
 def logo_select():
     get_flashed_messages()
     images = []
@@ -1599,9 +1601,10 @@ def logo_select():
             images.append(os.path.join('../static/image/loga/', filename))
         else:
             continue
-    return render_template('logos.html', game=game, images=images)
+    return render_template('logos.html', game=game, images=images, selected_images=game.images)
 
 @app.route("/update_logos/", methods=['GET', 'POST'])
+@admin_required
 def update_logos():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -1626,7 +1629,11 @@ def update_logos():
         return redirect('/logo_select/')
     
 @app.route("/select_logos/", methods=['POST'])
+@admin_required
 def select_logos():
+    if request.method == 'POST':
+        game.images.clear()
+        game.images = request.form.getlist('logos')
     
     return redirect('/logo_select/')
 
