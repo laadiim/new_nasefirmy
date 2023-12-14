@@ -100,6 +100,7 @@
                 <a href="{{ url_for('dashboard') }}" class="w3-bar-item w3-button w3-blue" target="_blank">Dashboard</a>
                 <!--<a href="{{ url_for('run_game') }}" class="w3-bar-item w3-button w3-blue">Spustit hru</a>-->
                 <a href="{{ url_for('graph') }}" class="w3-bar-item w3-button w3-blue">Graf majetku</a>
+                <a href="{{ url_for('logo_select') }}" class="w3-bar-item w3-button w3-blue" target="_blank">Vyber log</a>
             </div>
 
             <pre class="w3-left">  </pre>
@@ -164,6 +165,8 @@
                     <th><img src="/static/image/iko_srv.png" alt="alt: Servis" class="dashboard_inv_ico"><br/>Servis</th>
                     <th><img src="/static/image/iko_mkt.png" alt="alt: Marketing" class="dashboard_inv_ico"><br/>Marketing
                     </th>
+                    <th></th>
+                    <th></th>
 
                     <!-- set style - safer solution -->
                     <!--<th><img src="/static/image/vyvoj.png" alt="alt: Vývoj" style="width:100px;height:100px;"></th>-->
@@ -187,6 +190,18 @@
                     <td>{{ td['obchod'] }}</td>
                     <td>{{ td['servis'] }}</td>
                     <td>{{ td['marketing'] }}</td>
+                    <td>{% if td['ma_vyrobek'] == True %}
+                            <img src="..\static\image\sm_vyroba.png">
+                        {% else %}
+                            <div style="width:30px; height:30px;"></div>
+                        {% endif %}
+                    </td>
+                    <td>{% if td['ma_vyrobek'] == True and td['ma_nazev'] == True %}
+                            <img src="..\static\image\sm_marketing.png">
+                        {% else %}
+                            <div style="width:30px; height:30px;"></div>
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </table>
@@ -344,7 +359,7 @@
                 {% endif %}
             {% endif %}
             {% if control==False %}
-                <div style="width: 100%; height: 100%; text-align: center; padding:40px">
+                <div style="width: 1000px; height: 100%; text-align: center; padding:40px">
                     <img src="" style="width: auto; height: auto; max-width: 900px; max-height: 450px" id="image">
                 </div>
             {% endif %}
